@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link href="http://g.alicdn.com/bui/bui/1.1.15/css/bs3/dpl.css" rel="stylesheet">
+	<link href="http://g.alicdn.com/bui/bui/1.1.15/css/bs3/bui.css" rel="stylesheet">
+	<style>
+				.d1 {
+					color: black;
+					background: #ccc;
+					border: 1px solid red;
+					width: 200px;
+					height: 200px;
+				}
+	</style>
+	</head>
+	<body>
+
+	<div class="demo-content">
+    
+    <div class="row">
+        <div class="span16 doc-content">
+          <ul class="breadcrumb">
+            <li>
+              <a href="#">首页</a> <span class="divider">/</span>
+            </li>
+            <li>
+              <a href="#">商家管理</a> <span class="divider">/</span>
+            </li>
+            <li class="active">价格规则列表</li>
+          </ul>      
+          <form action="" method="post" id="J_shopForm" class="form-horizontal">
+            <div class="form-links">
+              <ul class="nav-tabs">
+                <li class="active"><a href="#">店铺信息</a></li>
+                <li><a href="#">店铺销售历史</a></li>
+                <li ><a href="#">店铺修改历史</a></li>
+              </ul>
+            </div>
+            <div class="control-group">
+              <label class="control-label">城市：</label>
+              <div class="controls">
+                <select class="input-small"><option>省份</option></select>
+                <select class="input-small"><option>城市</option></select>
+              </div>
+            </div>
+            <div class="control-group" id="J_shopname">
+              <label class="control-label">店铺名称：</label>
+              <div class="controls">
+				<input type="text" name="shopname" class="input-large">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">地址：</label>
+              <div class="controls">
+                <input type="text" name="address" class="input-large">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">电话：</label>
+              <div class="controls">
+                <input type="text" name="telephone" class="input-large">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">公交：</label>
+              <div class="controls control-row-auto">
+                <textarea name="transit" class="control-row4 input-large"></textarea>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">其他：</label>
+              <div class="controls">
+                <label class="radio" for="eee"><input name="other" type="radio" id="eee" />规则未执行等同执行失败</label>&nbsp;&nbsp;&nbsp;
+                <label class="radio" for="fff"><input name="other" type="radio" id="fff" />规则未执行等同执行成功</label>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">店铺类型：</label>
+              <div class="controls">
+                <label class="checkbox" for="aaa"><input type="checkbox" id="aaa" />集市</label>
+                <label class="checkbox" for="bbb"><input type="checkbox" id="bbb" />商城</label>
+                <label class="checkbox" for="ccc"><input type="checkbox" id="ccc" />无名良品</label>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">使用营销工具：</label>
+              <div class="controls">
+                <label class="checkbox" for="ddd"><input type="checkbox" id="ddd" />店铺优惠券<i class=""></i></label>
+              </div>
+            </div> 
+            <div class="row actions-bar">
+                <div class="form-actions span13 offset3">
+                  <button type="submit" class="button button-primary">保存</button>
+                </div>
+            </div>
+          </form>
+        </div>
+    </div>
+
+  </div>
+
+	<script src="http://code.jquery.com/jquery-1.7.2.min.js" charset="utf-8"></script>
+	<script src="http://www.css88.com/doc/underscore/underscore.js" charset="utf-8"></script>
+	<script src="http://www.css88.com/doc/backbone/backbone.js" charset="utf-8"></script>
+	<script>
+		var FormItem = Backbone.Model.extend({
+			idAttribute: 'formId',
+			initialize: function() {
+				
+			},
+			collection: {}
+		});
+		
+		var FormElement = Backbone.Model.extend({
+			idAttribute: '_id',
+			defaults: {
+				value: '',
+                qq: ''
+			},
+			initialize: function() {
+				
+			},
+			validate: function(attrs, options) {
+				if (attrs.value === '') {
+					return '店铺名称不能为空';
+				}
+			}
+		});
+		
+		var formElement = new FormElement();
+		
+		formElement.on('invalid', function(model, error) {
+			alert(error);
+		});
+		
+		var FormElementView = Backbone.View.extend({
+			model: formElement,
+			events: {
+			},
+			initialize: function() {
+				if (this.model) {
+					this.listenTo(this.model, 'change', this.render);
+				}
+			},
+			focusCallback: function() { 
+			},
+			blurCallback: function() {
+			},
+			render: function() {
+					
+			}
+		});
+		
+		var shopnameView = FormElementView.extend({
+			events: {
+				'blur input': 'blurCallback'
+			},
+			blurCallback: function() {
+				this.model.set({
+					value: this.$('input', this.$el).val(),
+                    qq: '162605336'
+				}, { validate: true });
+                console.log( this.model.get('qq') );
+			}
+		});
+		
+		// 店铺名称
+		var shopname = new shopnameView({
+			el: $('#J_shopname')
+		});
+
+	</script>
+
+	</body>
+</html>
